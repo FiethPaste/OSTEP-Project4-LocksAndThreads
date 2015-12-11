@@ -1,0 +1,57 @@
+所有的项目文件被我分为了以下几个文件夹：
+1.locks
+所有实现的锁的.c文件和.h文件
+共包含：chooselock.h mutexlock.c mutex2.c mutex3.c mutex4.c spinlock.c sys_futex.c xchg.c
+其中chooselock.h包含了使用的锁的类型的信息，采用宏选择编译，只需要改变头文件中的CUR_LOCK和CUR_MUTEX参数即可改变相应的锁:
+#define SPIN_LOCK 1
+#define MUTEX_LOCK 2
+#define PTHREAD_MUTEX_LOCK 3
+
+--> #define CUR_LOCK 1
+
+#define MUTEX2 4
+#define MUTEX3 5
+#define MUTEX4 6
+
+-->#define CUR_MUTEX 5
+如以上方法指定。
+
+2.counter
+相关counter数据结构的所有.c,.h文件
+共包含：counter.c counter.h countertest.c makefile
+其中countertest.c为测试用文件，makefile为生成counter相关的libcounter.so
+
+3.linklist
+相关linklist数据结构的所有.c,.h文件
+共包含：linklist.c linklist.h linklisttest.c makefile
+其中linklisttest.c为测试用文件，makefile为生成linklist相关的liblist.so
+
+4.hash
+相关hash数据结构的所有.c,.h文件
+共包含：hash.c hash.h hashtest.c makefile
+其中hashtest.c为测试用文件，makefile为生成hash相关的libhash.so
+
+5.sloppycounter
+相关sloppycounter数据结构的所有.c,.h文件
+共包含：sloppycounter.c sloppycounter.h sloppycountertest.c makefile
+其中sloppycountertest.c为测试用文件，makefile为生成sloppycounter相关的libsloppycounter.so
+
+6.gettime
+测试执行时间所用的.c文件
+共包含gettime.c
+
+7.test
+总测试文件夹，包含测试相关的.c,.h文件
+共包含choosestruc.h test.c
+其中choosestruc.h中包含了当前使用的数据结构的信息，采用宏选择编译，只需要改变头文件中的CUR_STRUC参数即可改变相应数据结构
+#define COUNTER 1
+#define SLOPPY_COUNTER 2
+#define LINKLIST 3
+#define HASH 4
+-->#define CUR_STRUC 1
+如以上方法指定。
+
+
+文件夹外包含一个总makefile，在头文件中设定好使用的锁和数据结构之后，使用make命令调用makefile可使之在当前目录下生成所有数据结构对应的.so文件，和测试某个锁在某个数据结构下性能所用的testfile文件。使用make clean命令可以清除生成的所有文件。
+
+调用测试文件需要先执行命令行：export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
